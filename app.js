@@ -2,7 +2,10 @@ const express = require('express');
 const redis = require('redis');
 const app = express();
 
-const client = redis.createClient(process.env.REDIS_URL);
+const REDIS_URL = process.env.REDIS_URL;
+const HTTP_PORT = process.env.HTTP_PORT || 80;
+
+const client = redis.createClient(REDIS_URL);
 client.on('error', function (err) {
     console.log("Redis error: " + err);
 });
@@ -48,6 +51,6 @@ app.post('/water', function (req, res) {
     });
 });
 
-app.listen(3000, function () {
-    console.log('Example app listening on port 3000!')
+app.listen(HTTP_PORT, function () {
+    console.log(`Water demo app listening on port ${HTTP_PORT}!`)
 });

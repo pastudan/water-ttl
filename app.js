@@ -10,8 +10,8 @@ client.on('error', function (err) {
     console.log("Redis error: " + err);
 });
 
-// How long we want to simulate our water lasting (1 hour)
-const WATER_DECAY_TIME = 60 * 30 * 1000;
+// How long we want to simulate our water lasting (2 days)
+const WATER_DECAY_TIME = 1000 * 60 * 60 * 24 * 2;
 const WATER_LEVEL_CACHE_KEY = 'water-level';
 
 app.get('/hygrometer', function (req, res) {
@@ -29,7 +29,8 @@ app.get('/hygrometer', function (req, res) {
         } else {
             // Use exponential decay for water level simulation so it dries
             // up quickly in the beginning, but approaches 0 slowly
-            level = Math.exp(-5 * (WATER_DECAY_TIME - ttl) / WATER_DECAY_TIME) * 100;
+            level = Math.exp(-25 * (WATER_DECAY_TIME - ttl) / WATER_DECAY_TIME) * 100;
+            level = Math.round(level * 1000) / 1000; // round to 3 decimal places
         }
 
         res.send({ level });

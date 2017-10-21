@@ -2,7 +2,7 @@ const express = require('express');
 const redis = require('redis');
 const app = express();
 
-const client = redis.createClient();
+const client = redis.createClient(process.env.REDIS_URL);
 client.on('error', function (err) {
     console.log("Redis error: " + err);
 });
